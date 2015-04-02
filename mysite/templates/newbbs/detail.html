@@ -1,0 +1,154 @@
+<meta charset="utf-8">
+<script type="text/javascript" src="/static/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="/static/ueditor/ueditor.all.min.js"></script>
+{% extends 'newbbs/index.html' %}
+{% load staticfiles %}
+{% block page-title %}{{ detail.title}}{% endblock %}
+
+{% block page-content %}
+<div class="container">
+<style type="text/css">
+img{
+max-width:700px;
+max-height:700px;
+}
+.btn-block{width:300px;}
+.jumbotron{background-color:white;}
+.div_left{border:2px solid #ff6600;padding:5px;}
+.head_con{width:100%;}
+/* Featurettes
+------------------------- */
+
+.featurette-divider {
+  margin: 80px 0; /* Space out the Bootstrap <hr> more */
+}
+
+/* Thin out the marketing headings */
+.featurette-heading {
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+.well p{font-size:15px;}
+</style>
+<div class="jumbotron">
+<div class="container head_con">
+    <div class="col-md-2">
+    	<img alt="Head_Img" src="{{ detail_head_img.image }}"  width=80 height=80><br>
+    	<h2><a href="#"  style="color:blue;">{{ detail.author }}</a></h2>
+    </div>
+    <div class="col-md-10">
+    	<div class="page-header">
+	    	<div class="alert alert-success" role="alert">
+	        	<strong>{{ detail.title |safe}}</strong><br>
+	        	{{ detail.smarty }}
+	      	</div>
+      	</div>
+    </div>
+</div>
+<div class="page-header">
+	<div class="well">
+	    <p>{{ detail.contents|safe }}</p>    
+	</div>
+</div>
+<div>	
+	<img class="featurette-image img-responsive" src="/media/{{ detail.image }}" data-src="{% static "assets/js/vendor/holder.js/500x500/auto"%}" alt="{{ b.title }}">
+	<h2 class="featurette-heading">{{ detail.update_time }}.by <span class="text-muted">{{ detail.author }}.</span></h2>
+</div>
+
+
+
+<!-- 
+<img alt="Head_Img" src="{{ detail_head_img.image }}"  width=80 height=80>
+<span sytle="font-size:80px">作者：{{ detail.author }}</span>
+<h1>标题：{{ detail.title}}</h2>
+<h2>简介：{{ detail.smarty }}</h2>
+<h2>{{ detail.sex_old }}</h2>
+<img alt="照片" src="/media/{{ detail.image }}" style="width:200px;"><br>
+<span>内容：</span>
+<p sytle="font-size:15;">{{ detail.contents|safe }}</p>
+<br> -->
+</div>
+{% if anw %}
+{% for answer in anw %}
+<div class="panel panel-success">
+	<div class="panel-heading">
+    	<h3 class="panel-title">回复日期：{{ answer.answer_datetime }}</h3>
+    </div>
+    <div class="panel-body">
+    <div class="row">
+        <div class="col-md-2 div_left">
+        	<div class="container">
+				<img alt="头像" src="/media/{{answer.answer_user.image}}" style="width:100px;"><br><br>
+				<a href="#" class="btn-default"><h2>{{ answer.answer_user}}</h2></a>
+			</div>
+			
+		</div>
+        <div class="col-md-10">
+			{{ answer.answer_content|safe }}
+		</div>
+      </div>
+	</div>
+</div>
+{% endfor %}
+{% else %}
+<h1>NO answer</h1>
+{% endif%}
+
+
+<div class="well tab-content">
+                                
+   <div id="post-generic-content-form">
+        <form action="" method="POST" class="form-horizontal" >
+        {% csrf_token %}
+            <fieldset>
+			    <div class="form-group">
+			        <label for="id__content" class="col-sm-1 control-label">回复:</label>
+			        <div class="col-sm-11">
+				        {% if detail_error %}
+				        <div class="alert alert-danger" role="alert"><strong>{{ detail_error }}</strong></div>
+				        {% endif %}	            
+			            <script id="id_ba_Content" name="bbs_answer_Content" required="required"  style="display: inline-block;" type="text/plain" required></script>
+						<script type="text/javascript">
+						    
+						    var id_ba_Content = UE.getEditor('id_ba_Content',{'toolbars': [['source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor', '|', 'link', 'unlink', '|', 'simpleupload', 'attachment']], 'initialFrameWidth': 800, 'initialFrameHeight': 200, 'a': 2, 'serverUrl': '/ueditor/controller/?imagePathFormat=answer%2Fimg%2F&filePathFormat=answers%2Ffiles%2F'});
+						     id_ba_Content.ready(function(){
+						         
+						     });
+						</script>
+			        </div>
+			    </div>
+			    <div class="col-sm-1"></div>
+				<div class="col-sm-11 form-actions">
+					<button class="btn btn-primary" type="submit">提交</button>
+                </div>
+        </fieldset>
+     </form>                                    
+   </div>
+</div>
+<!-- 
+<div class="panel panel-primary">
+
+  <div class="panel-body">
+  <h2 class="form-signin-heading">发表评论</h2>
+  	<form class="form-signin" role="form" method="post" action="">
+  		{% csrf_token %}        
+			<script id="id_ba_Content" name="bbs_answer_Content" required="required"  style="display: inline-block;" type="text/plain" required></script>
+			<script type="text/javascript">
+			    
+			    var id_ba_Content = UE.getEditor('id_ba_Content',{'toolbars': [['source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor', '|', 'link', 'unlink', '|', 'simpleupload', 'attachment']], 'initialFrameWidth': 800, 'initialFrameHeight': 200, 'a': 2, 'serverUrl': '/ueditor/controller/?imagePathFormat=answer%2Fimg%2F&filePathFormat=answers%2Ffiles%2F'});
+			     id_ba_Content.ready(function(){
+			         
+			     });
+			</script>
+			<br>
+			<br>
+		<input type="hidden" name="bbs_answer_id" value="{{ detail }}">
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
+
+      </form>   
+   </div>
+</div> -->
+</div>
+{% endblock %}

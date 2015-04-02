@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    {% load staticfiles %}
+
+    <link rel="icon" href="{% static "upload/favicon.ico"%}">
+
+    <title>{% block page-title %}首页{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static "dist/css/bootstrap.min.css"%}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <style type="text/css">
+    body {
+	  padding-top: 70px;
+	}
+	hr{border-top-color:#0599F4;}
+	.bottom-footer{
+	  padding: 40px 0;
+	  color: #999;
+	  text-align: center;
+	  background-color: #f9f9f9;
+	  border-top: 1px solid #e5e5e5;
+	}
+	.bottom-footer p:last-child {
+	  margin-bottom: 0;
+	}
+
+    </style>
+
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="{% static "assets/js/ie8-responsive-file-warning.js"%}"></script><![endif]-->
+    <script src="{% static "assets/js/ie-emulation-modes-warning.js"%}"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">BBS</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/">首页</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+          	<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+            <li><a href="/write/">写话题</a></li>
+            <li class="active">{%if user %}<a href="#">用户：{{user }}</a>{%else%}<a href="/login/">欢迎，请登录</a>{%endif%}</li>
+            <li><a href="/logout/">退出</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Main component for a primary marketing message or call to action -->
+      {% block page-content %}
+      <div class="jumbotron">
+      
+      <div class="row">
+      	<div class="col-xs-12 col-md-9">
+       
+			{% for b in bbs %}
+			<img alt="照片" src="/media/{{ b.image }}" style="width:80px;">
+	        <h2 ><a href="/detail/{{ b.id }}/" sytle="font-size:40px;">{{ b.title }}</a></h2>
+	        <p style="color:#999;">{{ b.create_time }} by <a href="#">{{ b.author }}</a></p>
+	        <p><span>简介：</span>
+	        {{ b.smarty }}
+	        </p>
+	        <p style="color:#999;">update for {{ b.update_time }} <a href="#">赞：{{b.rank}}</a></p>	        
+	        <hr sytle="border-top:1px solid #08A1F0;">
+
+	    {% endfor %}
+
+         
+	        <ul class="pager">
+	            <li><a href="#">Previous</a></li>
+	            <li><a href="#">Next</a></li>
+          	</ul>
+		</div>
+      	<div class="col-xs-12 col-md-3">
+			<div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Panel title</h3>
+            </div>
+            <div class="panel-body">
+              Panel content
+            </div>
+          </div>
+      	</div>
+      </div>
+      </div>
+      
+      {% endblock %}      
+    </div> <!-- /container -->
+
+<div class="bottom-footer" >
+      <p>MTV built for <a href="#">BBS</a> by <a href="#">@XY</a>.</p>
+      <p>
+        <a href="#">Back to top</a>
+      </p>
+</div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static "assets/js/jquery-1.11.1.min.js"%}"></script>
+    <script src="{% static "dist/js/bootstrap.min.js"%}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="{% static "assets/js/ie10-viewport-bug-workaround.js"%}"></script>
+    <script type="text/javascript" src="{% static "assets/js/jquery.goup.min.js"%}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.goup({
+                trigger: 100,
+                bottomOffset: 20,       //距底部偏移量 
+                locationOffset: 30,     //距右部偏移量
+                title: '返回顶部',
+                titleAsText: true       //是否显示title
+            });
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<meta charset="utf-8">
+{% extends 'newbbs/index.html' %}
+{% load staticfiles %}
+{% block page-content %}
+<div class="container"> 
+				<!----speical-products---->
+				<div class="special-products">
+					<div class="s-products-head">
+						<div class="s-products-head-left">
+							<h3>更多 <span>展示</span></h3>
+						</div>
+						
+						<div class="clearfix"> </div>
+					</div>
+					<!----special-products-grids---->
+					<div class="special-products-grids">						
+						{% for b in bbs %}
+						<div class="col-md-3 special-products-grid text-center">
+							<a class="brand-name" href="/detail/{{ b.id }}/"><img src="{% static "newbbs/images/b1.jpg"%}" title="name" /></a>
+							<a class="product-here" href="/detail/{{ b.id }}/"><img alt="照片" src="/media/{{ b.image }}" height=158 ></a>
+							<h4><a href="/detail/{{ b.id }}/">{{ b.category }}</a></h4>
+							<a class="product-btn" href="/detail/{{ b.id }}/"><span>{{ b.author }}</span><small>详细..</small><label> </label></a>
+						</div>
+	    				{% endfor %}
+						<div class="clearfix"> </div>
+					</div>
+					<!---//special-products-grids---->
+				</div>
+				<!---//speical-products---->
+				</div>
+			<!----content---->
+{% endblock%}

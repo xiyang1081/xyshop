@@ -1,0 +1,68 @@
+<meta charset="utf-8">
+<script type="text/javascript" src="/static/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="/static/ueditor/ueditor.all.min.js"></script>
+{% extends 'newbbs/index.html' %}
+{% block page-title %}writeContent{% endblock %}
+{% block page-content %}
+<div class="container">
+<style type="text/css">
+img{
+max-width:700px;
+max-height:700px;
+}
+.form-signin {
+	  max-width: 800px;
+	  padding: 15px;
+	}
+	.form-signin .form-control:focus {
+	  z-index: 2;
+	}	
+.btn-block{width:300px;}
+</style>
+		
+<div class="panel panel-default">
+
+  <div class="panel-body">
+  <h2 class="form-signin-heading">发布</h2>
+  	<form class="form-signin" role="form" method="post" action="" enctype="multipart/form-data">
+  	{% csrf_token %}
+  	<input type="text" name="bbs_contitle" class="form-control" placeholder="标题" required autofocus><br>
+  	<input type="text" name="bbs_consmarty" class="form-control" placeholder="简介" required><br>
+  		{% if category %}
+		<select name='bbs_category'>
+		{% for cls in category %}
+		<option>{{ cls.category_name }}</option>
+		{% endfor %}
+		</select>
+		{% endif%}
+		&nbsp;&nbsp;&nbsp;&nbsp;<label>层次段：</label>
+		<select name="sex_old">
+		<option>男</option>
+		<option>女</option>
+		<option>小孩</option>
+		</select>
+		<br>
+		<label class="required" for="id_image">照片:</label>
+		<input id="id_image" type="file" name="image">
+		
+		<br><br>
+			<script id="id_ba_Content" name="bbs_content" required="required"  style="display: inline-block;" type="text/plain" required></script>
+			<script type="text/javascript">
+			    
+			    var id_ba_Content = UE.getEditor('id_ba_Content',{'toolbars': [['source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor', '|', 'link', 'unlink', '|', 'simpleupload', 'attachment']], 'initialFrameWidth': 800, 'initialFrameHeight': 200, 'a': 2, 'serverUrl': '/ueditor/controller/?imagePathFormat=answer%2Fimg%2F&filePathFormat=answers%2Ffiles%2F'});
+			     id_ba_Content.ready(function(){
+			         
+			     });
+			</script>
+		<div class="checkbox">
+          <label>
+            <input type="checkbox" name="top" value="1" checked="checked"> 是否置于首页
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
+      </form>   
+   </div>
+</div>
+
+</div>
+{% endblock %}
